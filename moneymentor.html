@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MoneyMentor</title>
+<style>
+:root{
+  --bg:#ffffff; --fg:#1a1a2e; --muted:#5b5b6b; --card:#f7f7fb; --border:#e3e3ec;
+  --accent:#00338D; --accent2:#6E2585; --code-bg:#0f1220; --code-fg:#d7dae6;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e0f1a; --fg:#eceef5; --muted:#9a9db0; --card:#171827; --border:#2a2c40;
+    --accent:#7fa8ff; --accent2:#c99bf2; --code-bg:#05060c; --code-fg:#c7cbe0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e0f1a; --fg:#eceef5; --muted:#9a9db0; --card:#171827; --border:#2a2c40;
+  --accent:#7fa8ff; --accent2:#c99bf2; --code-bg:#05060c; --code-fg:#c7cbe0;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+  line-height:1.5;
+}
+.wrap{max-width:760px; margin:0 auto; padding:28px 20px 60px;}
+.eyebrow{color:var(--accent2); font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:600; margin:0 0 6px;}
+h1{font-size:28px; margin:0 0 6px; color:var(--fg);}
+.tagline{color:var(--muted); font-size:15px; margin:0 0 20px;}
+.summary{font-size:14.5px; margin:0 0 24px; color:var(--fg); opacity:.92;}
+.badge{display:inline-block; font-size:11px; padding:3px 9px; border-radius:999px; background:var(--card); border:1px solid var(--border); color:var(--muted); margin:0 6px 6px 0;}
+h2{font-size:15px; color:var(--accent); margin:30px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--border);}
+.card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px;}
+.card h3{margin:0 0 5px; font-size:13.5px; color:var(--accent2);}
+.card p{margin:0; font-size:13px; color:var(--muted);}
+.chiprow{margin-bottom:6px;}
+.chipgroup-label{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin:14px 0 6px;}
+ul.feat{margin:0; padding-left:20px; font-size:13.5px;}
+ul.feat li{margin-bottom:5px;}
+.jsonbox{position:relative; margin-top:10px;}
+pre{background:var(--code-bg); color:var(--code-fg); padding:16px; border-radius:10px; overflow-x:auto; font-size:11.5px; margin:0; max-height:420px;}
+.copybtn{position:absolute; top:10px; right:10px; background:var(--accent); color:#fff; border:none; padding:6px 12px; border-radius:6px; font-size:11.5px; cursor:pointer;}
+.copybtn:active{opacity:.8;}
+details summary{cursor:pointer; font-size:13px; color:var(--accent); margin:22px 0 8px; user-select:none;}
+.footer{margin-top:34px; font-size:11px; color:var(--muted); text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Project brief</p>
+  <h1>MoneyMentor</h1>
+  <p class="tagline">AI-Powered Personal Finance Advisor</p>
+  <p class="summary">A financial planning platform for the modern Indian investor that combines rule-based financial logic with Gemini AI to provide insights into portfolio health, retirement goals, and joint/couple finances. Deterministic financial math (XIRR, FIRE projections, tax optimization) is computed in Python/NumPy, with Gemini layered on top for narrative insight rather than doing the calculations itself.</p>
+  <span class="badge">Solo / individual project</span>
+  <span class="badge">Role: Not specified — edit the JSON to add your role</span>
+
+  <h2>Tech Stack</h2>
+  <div class="chipgroup-label">backend</div><div class="chiprow"><span class="badge">FastAPI (Python)</span><span class="badge">Gemini 1.5 Flash API</span><span class="badge">pdfplumber</span><span class="badge">numpy-financial</span><span class="badge">scipy</span><span class="badge">Pydantic</span></div><div class="chipgroup-label">frontend</div><div class="chiprow"><span class="badge">React (Vite)</span><span class="badge">Tailwind CSS</span><span class="badge">Zustand</span><span class="badge">Recharts</span><span class="badge">Axios</span></div>
+
+  <h2>Architecture</h2>
+  <div class="chipgroup-label">agenticRoles</div><div class="card"><h3>X-Ray Analyst</h3><p>Parses mutual fund statements (CAMS/KFintech PDFs) and calculates performance metrics (XIRR, asset allocation, fund overlap).</p></div><div class="card"><h3>Health Advisor</h3><p>Rules-based engine scoring financial habits across 6 dimensions, augmented by Gemini for contextual insight.</p></div><div class="card"><h3>FIRE Strategist</h3><p>Long-term projection specialist for early retirement planning (corpus and SIP requirements).</p></div><div class="card"><h3>Couple Optimizer</h3><p>Tax and joint-finance expert for household optimization (HRA, NPS, 80C).</p></div><div class="chipgroup-label">dataFlow</div><div class="card"><p>User input / PDF upload -&gt; Frontend (React)</p></div><div class="card"><p>API call -&gt; Backend (FastAPI)</p></div><div class="card"><p>Logic engine -&gt; calculation (Python/NumPy) + contextualization (Gemini AI)</p></div><div class="card"><p>Response -&gt; structured JSON for visualization (Recharts)</p></div><div class="chipgroup-label">errorHandling</div><div class="card"><p>Graceful handling of malformed PDF statements during parsing</p></div><div class="card"><p>Mock data fallbacks for all endpoints on API failure</p></div><div class="card"><p>Strict Pydantic models validating every entry point</p></div>
+
+  <h2>Key Features</h2>
+  <ul class="feat"><li>Portfolio X-Ray: CAMS/KFintech PDF upload for instant XIRR, asset allocation, and fund overlap analysis</li><li>Financial Health Score across 6 dimensions (Emergency Fund, Debt, Insurance, Diversification, Savings, Retirement)</li><li>FIRE Calculator: projected corpus and SIP requirements for early retirement</li><li>Goal Planner: tracks multiple life goals and detects funding conflicts</li><li>Life Events: analyzes financial impact of major life events (marriage, kids, job change)</li><li>Couple Finance: tax optimization (HRA, NPS, 80C) and joint investment planning</li></ul>
+
+  <h2>Challenges &amp; Debugging Stories</h2>
+  <div class="card"><h3>Keeping AI advisory and financial math separate</h3><p>Designed the system so all numeric outputs (XIRR, tax, projections) are deterministic Python calculations, with Gemini used only to explain/contextualize results, not to compute them.</p></div><div class="card"><h3>Real-world PDF parsing</h3><p>CAMS/KFintech statement formats vary across fund houses, requiring resilient parsing with graceful fallback on malformed input.</p></div>
+
+  
+
+  <h2>Links</h2>
+  <span class="badge">repo: not set</span><span class="badge">demo: not set</span>
+
+  <details>
+    <summary>View raw JSON</summary>
+    <div class="jsonbox">
+      <button class="copybtn" onclick="navigator.clipboard.writeText(document.getElementById('json-moneymentor').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1200);}).catch(()=>{})">Copy</button>
+      <pre id="json-moneymentor">{
+  &quot;id&quot;: &quot;moneymentor&quot;,
+  &quot;name&quot;: &quot;MoneyMentor&quot;,
+  &quot;tagline&quot;: &quot;AI-Powered Personal Finance Advisor&quot;,
+  &quot;summary&quot;: &quot;A financial planning platform for the modern Indian investor that combines rule-based financial logic with Gemini AI to provide insights into portfolio health, retirement goals, and joint/couple finances. Deterministic financial math (XIRR, FIRE projections, tax optimization) is computed in Python/NumPy, with Gemini layered on top for narrative insight rather than doing the calculations itself.&quot;,
+  &quot;type&quot;: &quot;Solo / individual project&quot;,
+  &quot;role&quot;: &quot;&quot;,
+  &quot;techStack&quot;: {
+    &quot;backend&quot;: [
+      &quot;FastAPI (Python)&quot;,
+      &quot;Gemini 1.5 Flash API&quot;,
+      &quot;pdfplumber&quot;,
+      &quot;numpy-financial&quot;,
+      &quot;scipy&quot;,
+      &quot;Pydantic&quot;
+    ],
+    &quot;frontend&quot;: [
+      &quot;React (Vite)&quot;,
+      &quot;Tailwind CSS&quot;,
+      &quot;Zustand&quot;,
+      &quot;Recharts&quot;,
+      &quot;Axios&quot;
+    ]
+  },
+  &quot;architecture&quot;: {
+    &quot;agenticRoles&quot;: [
+      {
+        &quot;name&quot;: &quot;X-Ray Analyst&quot;,
+        &quot;description&quot;: &quot;Parses mutual fund statements (CAMS/KFintech PDFs) and calculates performance metrics (XIRR, asset allocation, fund overlap).&quot;
+      },
+      {
+        &quot;name&quot;: &quot;Health Advisor&quot;,
+        &quot;description&quot;: &quot;Rules-based engine scoring financial habits across 6 dimensions, augmented by Gemini for contextual insight.&quot;
+      },
+      {
+        &quot;name&quot;: &quot;FIRE Strategist&quot;,
+        &quot;description&quot;: &quot;Long-term projection specialist for early retirement planning (corpus and SIP requirements).&quot;
+      },
+      {
+        &quot;name&quot;: &quot;Couple Optimizer&quot;,
+        &quot;description&quot;: &quot;Tax and joint-finance expert for household optimization (HRA, NPS, 80C).&quot;
+      }
+    ],
+    &quot;dataFlow&quot;: [
+      &quot;User input / PDF upload -&gt; Frontend (React)&quot;,
+      &quot;API call -&gt; Backend (FastAPI)&quot;,
+      &quot;Logic engine -&gt; calculation (Python/NumPy) + contextualization (Gemini AI)&quot;,
+      &quot;Response -&gt; structured JSON for visualization (Recharts)&quot;
+    ],
+    &quot;errorHandling&quot;: [
+      &quot;Graceful handling of malformed PDF statements during parsing&quot;,
+      &quot;Mock data fallbacks for all endpoints on API failure&quot;,
+      &quot;Strict Pydantic models validating every entry point&quot;
+    ]
+  },
+  &quot;keyFeatures&quot;: [
+    &quot;Portfolio X-Ray: CAMS/KFintech PDF upload for instant XIRR, asset allocation, and fund overlap analysis&quot;,
+    &quot;Financial Health Score across 6 dimensions (Emergency Fund, Debt, Insurance, Diversification, Savings, Retirement)&quot;,
+    &quot;FIRE Calculator: projected corpus and SIP requirements for early retirement&quot;,
+    &quot;Goal Planner: tracks multiple life goals and detects funding conflicts&quot;,
+    &quot;Life Events: analyzes financial impact of major life events (marriage, kids, job change)&quot;,
+    &quot;Couple Finance: tax optimization (HRA, NPS, 80C) and joint investment planning&quot;
+  ],
+  &quot;challenges&quot;: [
+    {
+      &quot;title&quot;: &quot;Keeping AI advisory and financial math separate&quot;,
+      &quot;description&quot;: &quot;Designed the system so all numeric outputs (XIRR, tax, projections) are deterministic Python calculations, with Gemini used only to explain/contextualize results, not to compute them.&quot;
+    },
+    {
+      &quot;title&quot;: &quot;Real-world PDF parsing&quot;,
+      &quot;description&quot;: &quot;CAMS/KFintech statement formats vary across fund houses, requiring resilient parsing with graceful fallback on malformed input.&quot;
+    }
+  ],
+  &quot;links&quot;: {
+    &quot;repo&quot;: null,
+    &quot;demo&quot;: null
+  }
+}</pre>
+    </div>
+  </details>
+
+  <p class="footer">Project brief generated from resume/portfolio data · MoneyMentor</p>
+</div>
+</body>
+</html>

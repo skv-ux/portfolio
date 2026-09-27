@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ExpenseTracker</title>
+<style>
+:root{
+  --bg:#ffffff; --fg:#1a1a2e; --muted:#5b5b6b; --card:#f7f7fb; --border:#e3e3ec;
+  --accent:#00338D; --accent2:#6E2585; --code-bg:#0f1220; --code-fg:#d7dae6;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e0f1a; --fg:#eceef5; --muted:#9a9db0; --card:#171827; --border:#2a2c40;
+    --accent:#7fa8ff; --accent2:#c99bf2; --code-bg:#05060c; --code-fg:#c7cbe0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e0f1a; --fg:#eceef5; --muted:#9a9db0; --card:#171827; --border:#2a2c40;
+  --accent:#7fa8ff; --accent2:#c99bf2; --code-bg:#05060c; --code-fg:#c7cbe0;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+  line-height:1.5;
+}
+.wrap{max-width:760px; margin:0 auto; padding:28px 20px 60px;}
+.eyebrow{color:var(--accent2); font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:600; margin:0 0 6px;}
+h1{font-size:28px; margin:0 0 6px; color:var(--fg);}
+.tagline{color:var(--muted); font-size:15px; margin:0 0 20px;}
+.summary{font-size:14.5px; margin:0 0 24px; color:var(--fg); opacity:.92;}
+.badge{display:inline-block; font-size:11px; padding:3px 9px; border-radius:999px; background:var(--card); border:1px solid var(--border); color:var(--muted); margin:0 6px 6px 0;}
+h2{font-size:15px; color:var(--accent); margin:30px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--border);}
+.card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px;}
+.card h3{margin:0 0 5px; font-size:13.5px; color:var(--accent2);}
+.card p{margin:0; font-size:13px; color:var(--muted);}
+.chiprow{margin-bottom:6px;}
+.chipgroup-label{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin:14px 0 6px;}
+ul.feat{margin:0; padding-left:20px; font-size:13.5px;}
+ul.feat li{margin-bottom:5px;}
+.jsonbox{position:relative; margin-top:10px;}
+pre{background:var(--code-bg); color:var(--code-fg); padding:16px; border-radius:10px; overflow-x:auto; font-size:11.5px; margin:0; max-height:420px;}
+.copybtn{position:absolute; top:10px; right:10px; background:var(--accent); color:#fff; border:none; padding:6px 12px; border-radius:6px; font-size:11.5px; cursor:pointer;}
+.copybtn:active{opacity:.8;}
+details summary{cursor:pointer; font-size:13px; color:var(--accent); margin:22px 0 8px; user-select:none;}
+.footer{margin-top:34px; font-size:11px; color:var(--muted); text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Project brief</p>
+  <h1>ExpenseTracker</h1>
+  <p class="tagline">Native Android expense tracker with budgeting, analytics, and bill-splitting</p>
+  <p class="summary">A native Android app built with Kotlin and Jetpack Compose for tracking expenses, managing budgets, viewing spend analytics, and splitting bills between people, backed by a local Room database using an MVVM architecture.</p>
+  <span class="badge">Solo / individual project</span>
+  <span class="badge">Role: Not specified — edit the JSON to add your role</span>
+
+  <h2>Tech Stack</h2>
+  <div class="chipgroup-label">language</div><div class="chiprow"><span class="badge">Kotlin</span></div><div class="chipgroup-label">ui</div><div class="chiprow"><span class="badge">Jetpack Compose</span><span class="badge">Compose Navigation</span></div><div class="chipgroup-label">architecture</div><div class="chiprow"><span class="badge">MVVM (ViewModel + ViewModelFactory per feature)</span></div><div class="chipgroup-label">database</div><div class="chiprow"><span class="badge">Room (local, offline-first)</span></div><div class="chipgroup-label">buildTools</div><div class="chiprow"><span class="badge">Gradle (Kotlin DSL)</span><span class="badge">Kotlin 1.9.23</span><span class="badge">Compose Compiler 1.5.11</span><span class="badge">AGP 8.6.0</span></div>
+
+  <h2>Architecture</h2>
+  <div class="chipgroup-label">layers</div><div class="card"><h3>UI (Compose screens)</h3><p></p></div><div class="card"><h3>State (ViewModels)</h3><p></p></div><div class="card"><h3>Data (Room)</h3><p></p></div><div class="chipgroup-label">notableDecisions</div><div class="card"><p>Manual dependency wiring via ViewModelFactory classes instead of a DI framework like Hilt, to keep scope simple.</p></div><div class="card"><p>Fully offline-first: all data persisted locally via Room, no remote backend/sync in this version.</p></div><div class="card"><p>Custom Compose Canvas-based pie chart (StatsPieChart) for category-wise spend visualization.</p></div>
+
+  <h2>Key Features</h2>
+  <ul class="feat"><li>Expense tracking (add/view/categorize)</li><li>Budget management</li><li>Spend analytics with pie chart visualization</li><li>Bill-splitting between people (ExpenseShare + SplitUtils)</li><li>Month-based filtering (MonthSelector / MonthPicker)</li></ul>
+
+  <h2>Challenges &amp; Debugging Stories</h2>
+  <div class="card"><h3>Kotlin / Compose Compiler version mismatch</h3><p>Build failures traced to the Compose Compiler being tightly version-pinned to a specific Kotlin version; resolved by bumping Kotlin from 1.9.22 to 1.9.23 to match Compose Compiler 1.5.11.</p></div><div class="card"><h3>AAR metadata check failures</h3><p>Hit a &#x27;:app:checkDebugAarMetadata FAILED&#x27; task, typically caused by a dependency&#x27;s AAR being compiled against a newer Android API level than the project&#x27;s compileSdk; diagnosed via Gradle debug output and resolved by aligning SDK/dependency versions.</p></div>
+
+  
+
+  <h2>Links</h2>
+  <span class="badge">repo: not set</span><span class="badge">demo: not set</span>
+
+  <details>
+    <summary>View raw JSON</summary>
+    <div class="jsonbox">
+      <button class="copybtn" onclick="navigator.clipboard.writeText(document.getElementById('json-expensetracker').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1200);}).catch(()=>{})">Copy</button>
+      <pre id="json-expensetracker">{
+  &quot;id&quot;: &quot;expensetracker&quot;,
+  &quot;name&quot;: &quot;ExpenseTracker&quot;,
+  &quot;tagline&quot;: &quot;Native Android expense tracker with budgeting, analytics, and bill-splitting&quot;,
+  &quot;summary&quot;: &quot;A native Android app built with Kotlin and Jetpack Compose for tracking expenses, managing budgets, viewing spend analytics, and splitting bills between people, backed by a local Room database using an MVVM architecture.&quot;,
+  &quot;type&quot;: &quot;Solo / individual project&quot;,
+  &quot;role&quot;: &quot;&quot;,
+  &quot;techStack&quot;: {
+    &quot;language&quot;: [
+      &quot;Kotlin&quot;
+    ],
+    &quot;ui&quot;: [
+      &quot;Jetpack Compose&quot;,
+      &quot;Compose Navigation&quot;
+    ],
+    &quot;architecture&quot;: [
+      &quot;MVVM (ViewModel + ViewModelFactory per feature)&quot;
+    ],
+    &quot;database&quot;: [
+      &quot;Room (local, offline-first)&quot;
+    ],
+    &quot;buildTools&quot;: [
+      &quot;Gradle (Kotlin DSL)&quot;,
+      &quot;Kotlin 1.9.23&quot;,
+      &quot;Compose Compiler 1.5.11&quot;,
+      &quot;AGP 8.6.0&quot;
+    ]
+  },
+  &quot;architecture&quot;: {
+    &quot;layers&quot;: [
+      {
+        &quot;name&quot;: &quot;UI (Compose screens)&quot;,
+        &quot;components&quot;: [
+          &quot;HomeScreen&quot;,
+          &quot;AddExpenseScreen&quot;,
+          &quot;BudgetScreen&quot;,
+          &quot;StatsScreen&quot;,
+          &quot;AnalyticsScreen&quot;,
+          &quot;AppNavigator&quot;
+        ]
+      },
+      {
+        &quot;name&quot;: &quot;State (ViewModels)&quot;,
+        &quot;components&quot;: [
+          &quot;ExpenseViewModel&quot;,
+          &quot;BudgetViewModel&quot;,
+          &quot;AnalyticsViewModel&quot;,
+          &quot;AddExpenseViewModel&quot;,
+          &quot;matching ViewModelFactories&quot;
+        ]
+      },
+      {
+        &quot;name&quot;: &quot;Data (Room)&quot;,
+        &quot;components&quot;: [
+          &quot;AppDatabase&quot;,
+          &quot;ExpenseDao&quot;,
+          &quot;BudgetDao&quot;,
+          &quot;AnalyticsDao&quot;,
+          &quot;ExpenseShareDao&quot;
+        ]
+      }
+    ],
+    &quot;notableDecisions&quot;: [
+      &quot;Manual dependency wiring via ViewModelFactory classes instead of a DI framework like Hilt, to keep scope simple.&quot;,
+      &quot;Fully offline-first: all data persisted locally via Room, no remote backend/sync in this version.&quot;,
+      &quot;Custom Compose Canvas-based pie chart (StatsPieChart) for category-wise spend visualization.&quot;
+    ]
+  },
+  &quot;keyFeatures&quot;: [
+    &quot;Expense tracking (add/view/categorize)&quot;,
+    &quot;Budget management&quot;,
+    &quot;Spend analytics with pie chart visualization&quot;,
+    &quot;Bill-splitting between people (ExpenseShare + SplitUtils)&quot;,
+    &quot;Month-based filtering (MonthSelector / MonthPicker)&quot;
+  ],
+  &quot;challenges&quot;: [
+    {
+      &quot;title&quot;: &quot;Kotlin / Compose Compiler version mismatch&quot;,
+      &quot;description&quot;: &quot;Build failures traced to the Compose Compiler being tightly version-pinned to a specific Kotlin version; resolved by bumping Kotlin from 1.9.22 to 1.9.23 to match Compose Compiler 1.5.11.&quot;
+    },
+    {
+      &quot;title&quot;: &quot;AAR metadata check failures&quot;,
+      &quot;description&quot;: &quot;Hit a &#x27;:app:checkDebugAarMetadata FAILED&#x27; task, typically caused by a dependency&#x27;s AAR being compiled against a newer Android API level than the project&#x27;s compileSdk; diagnosed via Gradle debug output and resolved by aligning SDK/dependency versions.&quot;
+    }
+  ],
+  &quot;links&quot;: {
+    &quot;repo&quot;: null,
+    &quot;demo&quot;: null
+  }
+}</pre>
+    </div>
+  </details>
+
+  <p class="footer">Project brief generated from resume/portfolio data · ExpenseTracker</p>
+</div>
+</body>
+</html>

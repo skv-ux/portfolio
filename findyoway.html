@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FindYoWay</title>
+<style>
+:root{
+  --bg:#ffffff; --fg:#1a1a2e; --muted:#5b5b6b; --card:#f7f7fb; --border:#e3e3ec;
+  --accent:#00338D; --accent2:#6E2585; --code-bg:#0f1220; --code-fg:#d7dae6;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e0f1a; --fg:#eceef5; --muted:#9a9db0; --card:#171827; --border:#2a2c40;
+    --accent:#7fa8ff; --accent2:#c99bf2; --code-bg:#05060c; --code-fg:#c7cbe0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e0f1a; --fg:#eceef5; --muted:#9a9db0; --card:#171827; --border:#2a2c40;
+  --accent:#7fa8ff; --accent2:#c99bf2; --code-bg:#05060c; --code-fg:#c7cbe0;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+  line-height:1.5;
+}
+.wrap{max-width:760px; margin:0 auto; padding:28px 20px 60px;}
+.eyebrow{color:var(--accent2); font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:600; margin:0 0 6px;}
+h1{font-size:28px; margin:0 0 6px; color:var(--fg);}
+.tagline{color:var(--muted); font-size:15px; margin:0 0 20px;}
+.summary{font-size:14.5px; margin:0 0 24px; color:var(--fg); opacity:.92;}
+.badge{display:inline-block; font-size:11px; padding:3px 9px; border-radius:999px; background:var(--card); border:1px solid var(--border); color:var(--muted); margin:0 6px 6px 0;}
+h2{font-size:15px; color:var(--accent); margin:30px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--border);}
+.card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px;}
+.card h3{margin:0 0 5px; font-size:13.5px; color:var(--accent2);}
+.card p{margin:0; font-size:13px; color:var(--muted);}
+.chiprow{margin-bottom:6px;}
+.chipgroup-label{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin:14px 0 6px;}
+ul.feat{margin:0; padding-left:20px; font-size:13.5px;}
+ul.feat li{margin-bottom:5px;}
+.jsonbox{position:relative; margin-top:10px;}
+pre{background:var(--code-bg); color:var(--code-fg); padding:16px; border-radius:10px; overflow-x:auto; font-size:11.5px; margin:0; max-height:420px;}
+.copybtn{position:absolute; top:10px; right:10px; background:var(--accent); color:#fff; border:none; padding:6px 12px; border-radius:6px; font-size:11.5px; cursor:pointer;}
+.copybtn:active{opacity:.8;}
+details summary{cursor:pointer; font-size:13px; color:var(--accent); margin:22px 0 8px; user-select:none;}
+.footer{margin-top:34px; font-size:11px; color:var(--muted); text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Project brief</p>
+  <h1>FindYoWay</h1>
+  <p class="tagline">AI-powered navigation for the blind and visually impaired</p>
+  <p class="summary">A cross-platform mobile app that helps visually impaired users navigate independently, combining outdoor GPS routing, indoor floor-plan navigation, real-time obstacle detection, and a Gemini-powered vision assistant that reads signs and answers questions aloud.</p>
+  <span class="badge">Team project (4 members)</span>
+  <span class="badge">Role: Not specified — edit the JSON to add your role</span>
+
+  <h2>Tech Stack</h2>
+  <div class="chipgroup-label">mobile</div><div class="chiprow"><span class="badge">Expo SDK 50</span><span class="badge">React Native</span><span class="badge">JavaScript</span><span class="badge">expo-camera</span><span class="badge">expo-location</span><span class="badge">expo-speech</span><span class="badge">expo-av</span><span class="badge">AsyncStorage</span></div><div class="chipgroup-label">onDeviceAI</div><div class="chiprow"><span class="badge">TensorFlow.js</span><span class="badge">COCO-SSD (obstacle detection)</span></div><div class="chipgroup-label">cloudAI</div><div class="chiprow"><span class="badge">Gemini API (text + vision)</span></div><div class="chipgroup-label">backend</div><div class="chiprow"><span class="badge">Python</span><span class="badge">Flask</span></div><div class="chipgroup-label">database</div><div class="chiprow"><span class="badge">Supabase (PostgreSQL)</span></div><div class="chipgroup-label">dashboard</div><div class="chiprow"><span class="badge">React</span><span class="badge">Vite</span><span class="badge">react-flow</span></div>
+
+  <h2>Architecture</h2>
+  <div class="chipgroup-label">components</div><div class="card"><h3>mobile/</h3><p>Expo (React Native) user-facing app</p></div><div class="card"><h3>backend/</h3><p>Python Flask server that proxies/orchestrates Gemini API calls</p></div><div class="card"><h3>dashboard/</h3><p>React + Vite web dashboard for venues to register floor plans</p></div><div class="chipgroup-label">notableDecisions</div><div class="card"><p>On-device vs. cloud AI split: obstacle detection runs on-device (TensorFlow.js + COCO-SSD) for low latency; sign reading and conversational Q&amp;A go through Gemini Vision for deeper reasoning where latency is more tolerable.</p></div><div class="card"><p>API key and prompt logic kept server-side in Flask rather than called directly from the mobile client.</p></div><div class="card"><p>AsyncStorage used for offline caching so the app degrades gracefully without network signal.</p></div>
+
+  <h2>Key Features</h2>
+  <ul class="feat"><li>Outdoor GPS navigation</li><li>Indoor floor-plan navigation</li><li>Live sign reading via Gemini Vision</li><li>Real-time obstacle detection</li><li>Multilingual voice bot</li><li>SOS / emergency alert</li></ul>
+
+  <h2>Challenges &amp; Debugging Stories</h2>
+  <div class="card"><h3>Latency-critical vs. accuracy-critical tradeoff</h3><p>Needed obstacle warnings to be near-instant while allowing sign-reading/Q&amp;A to take longer for better accuracy, driving the on-device/cloud AI split.</p></div><div class="card"><h3>Offline resilience</h3><p>Designed caching (AsyncStorage) so navigation doesn&#x27;t fully break when connectivity drops.</p></div>
+
+  <h2>Team</h2><div class="card"><h3>Navigation + Maps</h3><p>GPS, Dijkstra pathfinding, floor plans</p></div><div class="card"><h3>Camera + Vision</h3><p>COCO-SSD, Gemini Vision</p></div><div class="card"><h3>Voice Bot + Backend</h3><p>Flask, Gemini text, SOS</p></div><div class="card"><h3>Web Dashboard</h3><p>Venue registration, floor plan editor</p></div>
+
+  <h2>Links</h2>
+  <span class="badge">repo: not set</span><span class="badge">demo: not set</span>
+
+  <details>
+    <summary>View raw JSON</summary>
+    <div class="jsonbox">
+      <button class="copybtn" onclick="navigator.clipboard.writeText(document.getElementById('json-findyoway').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1200);}).catch(()=>{})">Copy</button>
+      <pre id="json-findyoway">{
+  &quot;id&quot;: &quot;findyoway&quot;,
+  &quot;name&quot;: &quot;FindYoWay&quot;,
+  &quot;tagline&quot;: &quot;AI-powered navigation for the blind and visually impaired&quot;,
+  &quot;summary&quot;: &quot;A cross-platform mobile app that helps visually impaired users navigate independently, combining outdoor GPS routing, indoor floor-plan navigation, real-time obstacle detection, and a Gemini-powered vision assistant that reads signs and answers questions aloud.&quot;,
+  &quot;type&quot;: &quot;Team project (4 members)&quot;,
+  &quot;role&quot;: &quot;&quot;,
+  &quot;techStack&quot;: {
+    &quot;mobile&quot;: [
+      &quot;Expo SDK 50&quot;,
+      &quot;React Native&quot;,
+      &quot;JavaScript&quot;,
+      &quot;expo-camera&quot;,
+      &quot;expo-location&quot;,
+      &quot;expo-speech&quot;,
+      &quot;expo-av&quot;,
+      &quot;AsyncStorage&quot;
+    ],
+    &quot;onDeviceAI&quot;: [
+      &quot;TensorFlow.js&quot;,
+      &quot;COCO-SSD (obstacle detection)&quot;
+    ],
+    &quot;cloudAI&quot;: [
+      &quot;Gemini API (text + vision)&quot;
+    ],
+    &quot;backend&quot;: [
+      &quot;Python&quot;,
+      &quot;Flask&quot;
+    ],
+    &quot;database&quot;: [
+      &quot;Supabase (PostgreSQL)&quot;
+    ],
+    &quot;dashboard&quot;: [
+      &quot;React&quot;,
+      &quot;Vite&quot;,
+      &quot;react-flow&quot;
+    ]
+  },
+  &quot;architecture&quot;: {
+    &quot;components&quot;: [
+      {
+        &quot;name&quot;: &quot;mobile/&quot;,
+        &quot;description&quot;: &quot;Expo (React Native) user-facing app&quot;
+      },
+      {
+        &quot;name&quot;: &quot;backend/&quot;,
+        &quot;description&quot;: &quot;Python Flask server that proxies/orchestrates Gemini API calls&quot;
+      },
+      {
+        &quot;name&quot;: &quot;dashboard/&quot;,
+        &quot;description&quot;: &quot;React + Vite web dashboard for venues to register floor plans&quot;
+      }
+    ],
+    &quot;notableDecisions&quot;: [
+      &quot;On-device vs. cloud AI split: obstacle detection runs on-device (TensorFlow.js + COCO-SSD) for low latency; sign reading and conversational Q&amp;A go through Gemini Vision for deeper reasoning where latency is more tolerable.&quot;,
+      &quot;API key and prompt logic kept server-side in Flask rather than called directly from the mobile client.&quot;,
+      &quot;AsyncStorage used for offline caching so the app degrades gracefully without network signal.&quot;
+    ]
+  },
+  &quot;keyFeatures&quot;: [
+    &quot;Outdoor GPS navigation&quot;,
+    &quot;Indoor floor-plan navigation&quot;,
+    &quot;Live sign reading via Gemini Vision&quot;,
+    &quot;Real-time obstacle detection&quot;,
+    &quot;Multilingual voice bot&quot;,
+    &quot;SOS / emergency alert&quot;
+  ],
+  &quot;challenges&quot;: [
+    {
+      &quot;title&quot;: &quot;Latency-critical vs. accuracy-critical tradeoff&quot;,
+      &quot;description&quot;: &quot;Needed obstacle warnings to be near-instant while allowing sign-reading/Q&amp;A to take longer for better accuracy, driving the on-device/cloud AI split.&quot;
+    },
+    {
+      &quot;title&quot;: &quot;Offline resilience&quot;,
+      &quot;description&quot;: &quot;Designed caching (AsyncStorage) so navigation doesn&#x27;t fully break when connectivity drops.&quot;
+    }
+  ],
+  &quot;team&quot;: [
+    {
+      &quot;focus&quot;: &quot;Navigation + Maps&quot;,
+      &quot;detail&quot;: &quot;GPS, Dijkstra pathfinding, floor plans&quot;
+    },
+    {
+      &quot;focus&quot;: &quot;Camera + Vision&quot;,
+      &quot;detail&quot;: &quot;COCO-SSD, Gemini Vision&quot;
+    },
+    {
+      &quot;focus&quot;: &quot;Voice Bot + Backend&quot;,
+      &quot;detail&quot;: &quot;Flask, Gemini text, SOS&quot;
+    },
+    {
+      &quot;focus&quot;: &quot;Web Dashboard&quot;,
+      &quot;detail&quot;: &quot;Venue registration, floor plan editor&quot;
+    }
+  ],
+  &quot;links&quot;: {
+    &quot;repo&quot;: null,
+    &quot;demo&quot;: null
+  }
+}</pre>
+    </div>
+  </details>
+
+  <p class="footer">Project brief generated from resume/portfolio data · FindYoWay</p>
+</div>
+</body>
+</html>
