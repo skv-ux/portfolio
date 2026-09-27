@@ -1,0 +1,48 @@
+{
+  "id": "expensetracker",
+  "name": "ExpenseTracker",
+  "tagline": "Native Android expense tracker with budgeting, analytics, and bill-splitting",
+  "summary": "A native Android app built with Kotlin and Jetpack Compose for tracking expenses, managing budgets, viewing spend analytics, and splitting bills between people, backed by a local Room database using an MVVM architecture.",
+  "type": "Solo / individual project",
+  "role": "",
+  "techStack": {
+    "language": ["Kotlin"],
+    "ui": ["Jetpack Compose", "Compose Navigation"],
+    "architecture": ["MVVM (ViewModel + ViewModelFactory per feature)"],
+    "database": ["Room (local, offline-first)"],
+    "buildTools": ["Gradle (Kotlin DSL)", "Kotlin 1.9.23", "Compose Compiler 1.5.11", "AGP 8.6.0"]
+  },
+  "architecture": {
+    "layers": [
+      { "name": "UI (Compose screens)", "components": ["HomeScreen", "AddExpenseScreen", "BudgetScreen", "StatsScreen", "AnalyticsScreen", "AppNavigator"] },
+      { "name": "State (ViewModels)", "components": ["ExpenseViewModel", "BudgetViewModel", "AnalyticsViewModel", "AddExpenseViewModel", "matching ViewModelFactories"] },
+      { "name": "Data (Room)", "components": ["AppDatabase", "ExpenseDao", "BudgetDao", "AnalyticsDao", "ExpenseShareDao"] }
+    ],
+    "notableDecisions": [
+      "Manual dependency wiring via ViewModelFactory classes instead of a DI framework like Hilt, to keep scope simple.",
+      "Fully offline-first: all data persisted locally via Room, no remote backend/sync in this version.",
+      "Custom Compose Canvas-based pie chart (StatsPieChart) for category-wise spend visualization."
+    ]
+  },
+  "keyFeatures": [
+    "Expense tracking (add/view/categorize)",
+    "Budget management",
+    "Spend analytics with pie chart visualization",
+    "Bill-splitting between people (ExpenseShare + SplitUtils)",
+    "Month-based filtering (MonthSelector / MonthPicker)"
+  ],
+  "challenges": [
+    {
+      "title": "Kotlin / Compose Compiler version mismatch",
+      "description": "Build failures traced to the Compose Compiler being tightly version-pinned to a specific Kotlin version; resolved by bumping Kotlin from 1.9.22 to 1.9.23 to match Compose Compiler 1.5.11."
+    },
+    {
+      "title": "AAR metadata check failures",
+      "description": "Hit a ':app:checkDebugAarMetadata FAILED' task, typically caused by a dependency's AAR being compiled against a newer Android API level than the project's compileSdk; diagnosed via Gradle debug output and resolved by aligning SDK/dependency versions."
+    }
+  ],
+  "links": {
+    "repo": null,
+    "demo": null
+  }
+}

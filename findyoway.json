@@ -1,0 +1,56 @@
+{
+  "id": "findyoway",
+  "name": "FindYoWay",
+  "tagline": "AI-powered navigation for the blind and visually impaired",
+  "summary": "A cross-platform mobile app that helps visually impaired users navigate independently, combining outdoor GPS routing, indoor floor-plan navigation, real-time obstacle detection, and a Gemini-powered vision assistant that reads signs and answers questions aloud.",
+  "type": "Team project (4 members)",
+  "role": "",
+  "techStack": {
+    "mobile": ["Expo SDK 50", "React Native", "JavaScript", "expo-camera", "expo-location", "expo-speech", "expo-av", "AsyncStorage"],
+    "onDeviceAI": ["TensorFlow.js", "COCO-SSD (obstacle detection)"],
+    "cloudAI": ["Gemini API (text + vision)"],
+    "backend": ["Python", "Flask"],
+    "database": ["Supabase (PostgreSQL)"],
+    "dashboard": ["React", "Vite", "react-flow"]
+  },
+  "architecture": {
+    "components": [
+      { "name": "mobile/", "description": "Expo (React Native) user-facing app" },
+      { "name": "backend/", "description": "Python Flask server that proxies/orchestrates Gemini API calls" },
+      { "name": "dashboard/", "description": "React + Vite web dashboard for venues to register floor plans" }
+    ],
+    "notableDecisions": [
+      "On-device vs. cloud AI split: obstacle detection runs on-device (TensorFlow.js + COCO-SSD) for low latency; sign reading and conversational Q&A go through Gemini Vision for deeper reasoning where latency is more tolerable.",
+      "API key and prompt logic kept server-side in Flask rather than called directly from the mobile client.",
+      "AsyncStorage used for offline caching so the app degrades gracefully without network signal."
+    ]
+  },
+  "keyFeatures": [
+    "Outdoor GPS navigation",
+    "Indoor floor-plan navigation",
+    "Live sign reading via Gemini Vision",
+    "Real-time obstacle detection",
+    "Multilingual voice bot",
+    "SOS / emergency alert"
+  ],
+  "challenges": [
+    {
+      "title": "Latency-critical vs. accuracy-critical tradeoff",
+      "description": "Needed obstacle warnings to be near-instant while allowing sign-reading/Q&A to take longer for better accuracy, driving the on-device/cloud AI split."
+    },
+    {
+      "title": "Offline resilience",
+      "description": "Designed caching (AsyncStorage) so navigation doesn't fully break when connectivity drops."
+    }
+  ],
+  "team": [
+    { "focus": "Navigation + Maps", "detail": "GPS, Dijkstra pathfinding, floor plans" },
+    { "focus": "Camera + Vision", "detail": "COCO-SSD, Gemini Vision" },
+    { "focus": "Voice Bot + Backend", "detail": "Flask, Gemini text, SOS" },
+    { "focus": "Web Dashboard", "detail": "Venue registration, floor plan editor" }
+  ],
+  "links": {
+    "repo": null,
+    "demo": null
+  }
+}

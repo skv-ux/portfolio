@@ -1,0 +1,53 @@
+{
+  "id": "moneymentor",
+  "name": "MoneyMentor",
+  "tagline": "AI-Powered Personal Finance Advisor",
+  "summary": "A financial planning platform for the modern Indian investor that combines rule-based financial logic with Gemini AI to provide insights into portfolio health, retirement goals, and joint/couple finances. Deterministic financial math (XIRR, FIRE projections, tax optimization) is computed in Python/NumPy, with Gemini layered on top for narrative insight rather than doing the calculations itself.",
+  "type": "Solo / individual project",
+  "role": "",
+  "techStack": {
+    "backend": ["FastAPI (Python)", "Gemini 1.5 Flash API", "pdfplumber", "numpy-financial", "scipy", "Pydantic"],
+    "frontend": ["React (Vite)", "Tailwind CSS", "Zustand", "Recharts", "Axios"]
+  },
+  "architecture": {
+    "agenticRoles": [
+      { "name": "X-Ray Analyst", "description": "Parses mutual fund statements (CAMS/KFintech PDFs) and calculates performance metrics (XIRR, asset allocation, fund overlap)." },
+      { "name": "Health Advisor", "description": "Rules-based engine scoring financial habits across 6 dimensions, augmented by Gemini for contextual insight." },
+      { "name": "FIRE Strategist", "description": "Long-term projection specialist for early retirement planning (corpus and SIP requirements)." },
+      { "name": "Couple Optimizer", "description": "Tax and joint-finance expert for household optimization (HRA, NPS, 80C)." }
+    ],
+    "dataFlow": [
+      "User input / PDF upload -> Frontend (React)",
+      "API call -> Backend (FastAPI)",
+      "Logic engine -> calculation (Python/NumPy) + contextualization (Gemini AI)",
+      "Response -> structured JSON for visualization (Recharts)"
+    ],
+    "errorHandling": [
+      "Graceful handling of malformed PDF statements during parsing",
+      "Mock data fallbacks for all endpoints on API failure",
+      "Strict Pydantic models validating every entry point"
+    ]
+  },
+  "keyFeatures": [
+    "Portfolio X-Ray: CAMS/KFintech PDF upload for instant XIRR, asset allocation, and fund overlap analysis",
+    "Financial Health Score across 6 dimensions (Emergency Fund, Debt, Insurance, Diversification, Savings, Retirement)",
+    "FIRE Calculator: projected corpus and SIP requirements for early retirement",
+    "Goal Planner: tracks multiple life goals and detects funding conflicts",
+    "Life Events: analyzes financial impact of major life events (marriage, kids, job change)",
+    "Couple Finance: tax optimization (HRA, NPS, 80C) and joint investment planning"
+  ],
+  "challenges": [
+    {
+      "title": "Keeping AI advisory and financial math separate",
+      "description": "Designed the system so all numeric outputs (XIRR, tax, projections) are deterministic Python calculations, with Gemini used only to explain/contextualize results, not to compute them."
+    },
+    {
+      "title": "Real-world PDF parsing",
+      "description": "CAMS/KFintech statement formats vary across fund houses, requiring resilient parsing with graceful fallback on malformed input."
+    }
+  ],
+  "links": {
+    "repo": null,
+    "demo": null
+  }
+}
